@@ -1,0 +1,1508 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>小鹏汇天“陆地航母”分体式飞行汽车全方位工程调研与可行性分析报告</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --surface-alt: #f1f5f9;
+      --text: #0f172a;
+      --text-muted: #475569;
+      --border: #e2e8f0;
+      --primary: #1d4ed8;
+      --primary-soft: rgba(29, 78, 216, 0.08);
+      --accent: #0ea5e9;
+      --success: #059669;
+      --warning: #d97706;
+      --danger: #dc2626;
+      --sidebar-w: 280px;
+      --shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+      --radius: 12px;
+      --svg-bg: #f8fafc;
+      --svg-card: #ffffff;
+      --svg-stroke: #cbd5e1;
+      --svg-text: #0f172a;
+      --svg-muted: #475569;
+    }
+
+    [data-theme="dark"] {
+      --bg: #0b1120;
+      --surface: #111827;
+      --surface-alt: #1e293b;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --border: #273449;
+      --primary: #3b82f6;
+      --primary-soft: rgba(59, 130, 246, 0.14);
+      --accent: #38bdf8;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #f87171;
+      --shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+      --svg-bg: #0f172a;
+      --svg-card: #1e293b;
+      --svg-stroke: #334155;
+      --svg-text: #f1f5f9;
+      --svg-muted: #94a3b8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.75;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Reading Progress Bar */
+    #progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      z-index: 1000;
+      transition: width 0.1s linear;
+    }
+
+    /* Sidebar Navigation */
+    aside.sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: var(--sidebar-w);
+      height: 100vh;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      z-index: 200;
+      transition: transform 0.25s ease;
+    }
+
+    .sidebar-header {
+      padding: 20px 18px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sidebar-badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--primary);
+      background: var(--primary-soft);
+      padding: 3px 8px;
+      border-radius: 999px;
+      margin-bottom: 8px;
+    }
+
+    .sidebar-title {
+      font-size: 0.98rem;
+      font-weight: 700;
+      line-height: 1.4;
+      color: var(--text);
+    }
+
+    .toc-nav {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 10px;
+    }
+
+    .toc-nav a {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      padding: 8px 10px;
+      margin-bottom: 2px;
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.18s ease;
+    }
+
+    .toc-nav a:hover {
+      background: var(--surface-alt);
+      color: var(--text);
+    }
+
+    .toc-nav a.active {
+      background: var(--primary-soft);
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .toc-num {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.75rem;
+      opacity: 0.75;
+      min-width: 20px;
+    }
+
+    .sidebar-actions {
+      padding: 12px 14px;
+      border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 10px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface-alt);
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+
+    .btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #ffffff;
+    }
+
+    .btn-primary:hover {
+      opacity: 0.92;
+      color: #ffffff;
+    }
+
+    /* Mobile Menu Button */
+    .mobile-toggle {
+      display: none;
+      position: fixed;
+      top: 12px;
+      left: 12px;
+      z-index: 300;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    /* Main Content */
+    main.content {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      max-width: 1080px;
+      padding: 36px 48px 80px;
+    }
+
+    /* Cover Header */
+    .report-hero {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px 40px;
+      box-shadow: var(--shadow);
+      margin-bottom: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .report-hero::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--primary), var(--accent), var(--success));
+    }
+
+    .hero-tag {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .hero-title {
+      font-size: 2rem;
+      font-weight: 800;
+      line-height: 1.3;
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
+
+    .hero-subtitle {
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 12px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+    }
+
+    .meta-item {
+      background: var(--surface-alt);
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 0.84rem;
+    }
+
+    .meta-label {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 2px;
+    }
+
+    .editable-field {
+      font-weight: 600;
+      color: var(--primary);
+      border-bottom: 1px dashed var(--primary);
+      outline: none;
+      cursor: text;
+    }
+
+    /* Section Cards */
+    section.chapter {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px 36px;
+      margin-bottom: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .chapter-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .chapter-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-weight: 800;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .chapter h2 {
+      font-size: 1.42rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .chapter h3 {
+      font-size: 1.08rem;
+      font-weight: 700;
+      margin: 22px 0 10px;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .chapter h3::before {
+      content: "";
+      width: 4px;
+      height: 16px;
+      border-radius: 2px;
+      background: var(--primary);
+      display: inline-block;
+    }
+
+    .chapter p {
+      margin-bottom: 12px;
+      color: var(--text);
+      text-align: justify;
+    }
+
+    .chapter ul, .chapter ol {
+      margin: 10px 0 16px 22px;
+    }
+
+    .chapter li {
+      margin-bottom: 6px;
+    }
+
+    /* KPI Grid */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+      margin: 18px 0 22px;
+    }
+
+    .kpi-card {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .kpi-value {
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1.2;
+      margin-bottom: 4px;
+    }
+
+    .kpi-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* Callout Box */
+    .callout {
+      background: var(--primary-soft);
+      border-left: 4px solid var(--primary);
+      padding: 14px 18px;
+      border-radius: 0 10px 10px 0;
+      margin: 16px 0;
+      font-size: 0.94rem;
+    }
+
+    .callout-warn {
+      background: rgba(217, 119, 6, 0.09);
+      border-left-color: var(--warning);
+    }
+
+    /* Formula Block */
+    .formula-box {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin: 14px 0;
+      font-family: "Cambria Math", "Times New Roman", serif;
+      font-size: 1.02rem;
+      text-align: center;
+      overflow-x: auto;
+    }
+
+    .formula-note {
+      display: block;
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    /* Tables */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 16px 0 20px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    th, td {
+      padding: 11px 14px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      background: var(--surface-alt);
+      font-weight: 700;
+      color: var(--text);
+      white-space: nowrap;
+    }
+
+    tr:last-child td { border-bottom: none; }
+
+    tr:hover td { background: var(--primary-soft); }
+
+    /* Figures & Charts */
+    .figure-box {
+      background: var(--svg-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      margin: 20px 0;
+    }
+
+    .figure-box svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .figure-caption {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .chart-box {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      margin: 20px 0;
+      position: relative;
+      height: 360px;
+    }
+
+    /* Two-column Grid */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 14px 0;
+    }
+
+    .info-card {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+    }
+
+    .info-card h4 {
+      font-size: 0.96rem;
+      margin-bottom: 8px;
+      color: var(--primary);
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 0.74rem;
+      font-weight: 600;
+    }
+
+    .tag-high { background: rgba(220, 38, 38, 0.12); color: var(--danger); }
+    .tag-mid { background: rgba(217, 119, 6, 0.14); color: var(--warning); }
+    .tag-low { background: rgba(5, 150, 105, 0.14); color: var(--success); }
+
+    /* Footer */
+    footer.report-footer {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* Responsive */
+    @media (max-width: 960px) {
+      aside.sidebar { transform: translateX(-100%); }
+      aside.sidebar.open { transform: translateX(0); box-shadow: 0 0 40px rgba(0,0,0,0.3); }
+      .mobile-toggle { display: inline-flex; }
+      main.content { margin-left: 0; padding: 64px 18px 48px; }
+      .report-hero, section.chapter { padding: 22px 18px; }
+      .two-col { grid-template-columns: 1fr; }
+      .hero-title { font-size: 1.5rem; }
+    }
+
+    /* Print / PDF Styling (>= 12 pages) */
+    @media print {
+      #progress-bar, aside.sidebar, .mobile-toggle { display: none !important; }
+      body { background: #ffffff; color: #000000; display: block; }
+      main.content { margin: 0; padding: 0; max-width: 100%; }
+      .report-hero, section.chapter {
+        box-shadow: none;
+        border: 1px solid #cbd5e1;
+        break-before: page;
+        page-break-before: always;
+        margin-bottom: 0;
+        padding: 24px;
+      }
+      .report-hero { break-before: auto; page-break-before: auto; }
+      .figure-box, .chart-box, .table-wrap, .info-card { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <div id="progress-bar"></div>
+  <button class="mobile-toggle" id="mobileToggle">☰ 目录</button>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <span class="sidebar-badge">课程深度调研报告</span>
+      <div class="sidebar-title">小鹏汇天“陆地航母”<br />技术与商业可行性分析</div>
+    </div>
+    <nav class="toc-nav" id="tocNav">
+      <a href="#ch1"><span class="toc-num">01</span>执行摘要与研究背景</a>
+      <a href="#ch2"><span class="toc-num">02</span>企业演进与“三步走”战略</a>
+      <a href="#ch3"><span class="toc-num">03</span>整车架构与自动分合机构</a>
+      <a href="#ch4"><span class="toc-num">04</span>800V 增程动力与能量流</a>
+      <a href="#ch5"><span class="toc-num">05</span>六旋翼气动与推进系统</a>
+      <a href="#ch6"><span class="toc-num">06</span>飞控算法与单杆智能操纵</a>
+      <a href="#ch7"><span class="toc-num">07</span>全域冗余安全与适航审定</a>
+      <a href="#ch8"><span class="toc-num">08</span>技术可行性与工程瓶颈</a>
+      <a href="#ch9"><span class="toc-num">09</span>全球竞品横向对标分析</a>
+      <a href="#ch10"><span class="toc-num">10</span>典型应用场景与运营模式</a>
+      <a href="#ch11"><span class="toc-num">11</span>市场预测与 BOM 成本分析</a>
+      <a href="#ch12"><span class="toc-num">12</span>综合结论、风险与参考文献</a>
+    </nav>
+    <div class="sidebar-actions">
+      <button class="btn" id="themeToggle" title="切换浅色/深色主题">🌙 切换主题</button>
+      <button class="btn btn-primary" onclick="window.print()" title="打印或导出多页 PDF">🖨️ 打印/PDF</button>
+    </div>
+  </aside>
+
+  <!-- Main Report Content -->
+  <main class="content">
+    <!-- Cover Hero -->
+    <header class="report-hero">
+      <div class="hero-tag">Fundamentals of Flying Vehicle Technology · 2026 课程作业</div>
+      <h1 class="hero-title">小鹏汇天“陆地航母”分体式飞行汽车：<br />全维度工程技术调研、适航路径与市场可行性分析</h1>
+      <p class="hero-subtitle">
+        围绕“陆行母舰 + 电动垂直起降飞行体（X3-F）”分体式构型，从机械分合机构、800V 碳化硅增程能量流、六旋翼气动推进、全域冗余飞控、CAAC 适航审定及低空经济商业闭环六个维度开展系统性工程解构。
+      </p>
+      <div class="meta-grid">
+        <div class="meta-item">
+          <span class="meta-label">调研对象</span>
+          <strong>小鹏汇天“陆地航母”（LAC）</strong>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">调研作者</span>
+          <span class="editable-field" id="authorField" contenteditable="true">刘静雨15230421</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">所属课程</span>
+          <strong>飞行汽车技术基础</strong>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label"> 日期</span>
+          <strong>2026年11月</strong>
+        </div>
+      </div>
+    </header>
+
+    <!-- Chapter 01 -->
+    <section class="chapter" id="ch1">
+      <div class="chapter-header">
+        <span class="chapter-num">01</span>
+        <h2>执行摘要与研究背景</h2>
+      </div>
+      <p>
+        随着低空空域管理改革深化、高比能锂电池与分布式电推进（DEP）技术的成熟，<strong>飞行汽车（Flying Car / eVTOL）</strong>正从概念验证迈向商业化量产前夜。然而，传统“陆空一体式”飞行汽车在工程上面临难以调和的矛盾：汽车法规要求高刚度碰撞吸能车身、重型底盘与悬架，而航空适航要求极致轻量化与低阻力气动外形，导致一体式构型往往陷入“在地上不如汽车舒适、在天上不如飞机高效”的双重妥协。
+      </p>
+      <p>
+        在此背景下，小鹏汇天（XPENG AEROHT）推出的全球首款量产分体式飞行汽车——<strong>“陆地航母”（Land Aircraft Carrier, LAC）</strong>，通过将“陆行母舰（三轴六轮增程越野车）”与“纯电动六旋翼双座飞行体（X3-F）”物理分离，从系统架构层面解耦了陆行碰撞安全与航空轻量化之间的耦合约束，成为当前低空经济领域最具工程落地潜力的创新范式之一。
+      </p>
+
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-value">≤ 200 万</div>
+          <div class="kpi-label">目标单台量产售价（人民币）</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-value">1,000+ km</div>
+          <div class="kpi-label">陆行母舰 CLTC 综合续航</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-value">18 min</div>
+          <div class="kpi-label">飞行体 30%→80% 车端快充</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-value">10,000 台</div>
+          <div class="kpi-label">广州黄埔工厂规划年产能</div>
+        </div>
+      </div>
+
+      <h3>1.1 核心调研结论速览</h3>
+      <ul>
+        <li><strong>技术可行性（高）：</strong>分体式架构规避了一体式飞行汽车的法规冲突，陆行体可按常规新能源乘用车（C照驾驶）完成工信部公告，飞行体按民航局（CAAC）特殊类航空器完成型号合格证（TC）审定，大幅压缩研发与认证周期。</li>
+        <li><strong>工程瓶颈（中偏高）：</strong>核心难点集中在“全自动车载分合机构在非平整路面的对准精度”、飞行体电池热失控防护与 280 Wh/kg 级电芯高倍率放电温控，以及多旋翼气动噪声抑制。</li>
+        <li><strong>市场可行性（中高）：</strong>定位于 200 万元以内的高端个人户外探索与公共应急救援市场，前期依赖“限量交付 + 飞行营地生态”构建闭环，已斩获数千台意向及大客户订单，具备清晰的商业冷启动路径。</li>
+      </ul>
+
+      <div class="callout">
+        <strong>研究方法论：</strong>本报告综合采用<strong>系统工程分解法（WBS）</strong>、<strong>气动与能量流定量建模</strong>、<strong>多维竞品矩阵对标</strong>以及<strong>BOM 成本拆解与情景预测</strong>，对小鹏汇天“陆地航母”进行端到端技术与商业评估。
+      </div>
+    </section>
+
+    <!-- Chapter 02 -->
+    <section class="chapter" id="ch2">
+      <div class="chapter-header">
+        <span class="chapter-num">02</span>
+        <h2>企业演进与“三步走”产品战略</h2>
+      </div>
+      <p>
+        小鹏汇天由赵德力于 2013 年创立（前身汇天科技），2020 年获何小鹏及小鹏汽车战略投资并深度整合汽车供应链与智能座舱/智驾算法能力。公司目前是亚洲规模最大的飞行汽车研发制造企业，研发团队超过千人，在广州黄埔建设了全球首个利用现代化流水线进行大规模量产的飞行汽车智造基地。
+      </p>
+      <p>
+        面对低空法规、电池能量密度与基础设施尚未完全成熟的现实约束，小鹏汇天制定了清晰务实的<strong>“三步走”战略</strong>：先以分体式“陆地航母”切入限定场景（野外、营地、应急）实现规模化量产与商业造血；再推出高速长航程倾转旋翼 eVTOL（如 X5 系列）解决城际空中交通痛点；最终在固态电池与全自主低空智联成熟后，实现真正意义上的陆空一体式飞行汽车。
+      </p>
+
+      <!-- SVG 1: Three-Step Roadmap -->
+      <div class="figure-box">
+        <svg viewBox="0 0 920 260" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="arrow1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6" />
+            </marker>
+          </defs>
+          <rect x="0" y="0" width="920" height="260" rx="10" fill="var(--svg-bg)" />
+          <text x="460" y="28" text-anchor="middle" font-size="15" font-weight="700" fill="var(--svg-text)">小鹏汇天飞行汽车“三步走”技术与商业演进路线图</text>
+
+          <!-- Step 1 -->
+          <rect x="28" y="54" width="256" height="176" rx="12" fill="var(--svg-card)" stroke="#2563eb" stroke-width="2" />
+          <rect x="28" y="54" width="256" height="34" rx="12" fill="#2563eb" />
+          <text x="156" y="76" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">STEP 1 · 2025–2027（当前核心）</text>
+          <text x="46" y="112" font-size="14" font-weight="700" fill="var(--svg-text)">分体式“陆地航母”</text>
+          <text x="46" y="136" font-size="12" fill="var(--svg-muted)">• 构型：6×6增程母舰 + 六旋翼X3-F</text>
+          <text x="46" y="156" font-size="12" fill="var(--svg-muted)">• 场景：限定低空/户外露营/应急</text>
+          <text x="46" y="176" font-size="12" fill="var(--svg-muted)">• 瓶颈突破：陆空法规解耦、车载补能</text>
+          <text x="46" y="206" font-size="12" font-weight="700" fill="#059669">目标：首款万台级量产商业闭环</text>
+
+          <!-- Arrow 1->2 -->
+          <line x1="288" y1="142" x2="326" y2="142" stroke="#3b82f6" stroke-width="2.5" marker-end="url(#arrow1)" />
+
+          <!-- Step 2 -->
+          <rect x="332" y="54" width="256" height="176" rx="12" fill="var(--svg-card)" stroke="#0ea5e9" stroke-width="1.8" />
+          <rect x="332" y="54" width="256" height="34" rx="12" fill="#0ea5e9" />
+          <text x="460" y="76" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">STEP 2 · 2028–2030（中期拓展）</text>
+          <text x="350" y="112" font-size="14" font-weight="700" fill="var(--svg-text)">高速长航程 eVTOL（倾转翼）</text>
+          <text x="350" y="136" font-size="12" fill="var(--svg-muted)">• 构型：复合翼/倾转旋翼（6座级）</text>
+          <text x="350" y="156" font-size="12" fill="var(--svg-muted)">• 性能：航程 ≥500 km，巡航 360 km/h</text>
+          <text x="350" y="176" font-size="12" fill="var(--svg-muted)">• 场景：城际空中快线与低空出行</text>
+          <text x="350" y="206" font-size="12" font-weight="700" fill="#0284c7">目标：打通 UAM 城际低空网络</text>
+
+          <!-- Arrow 2->3 -->
+          <line x1="592" y1="142" x2="630" y2="142" stroke="#3b82f6" stroke-width="2.5" marker-end="url(#arrow1)" />
+
+          <!-- Step 3 -->
+          <rect x="636" y="54" width="256" height="176" rx="12" fill="var(--svg-card)" stroke="#8b5cf6" stroke-width="1.8" />
+          <rect x="636" y="54" width="256" height="34" rx="12" fill="#8b5cf6" />
+          <text x="764" y="76" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff">STEP 3 · 2030+（终极形态）</text>
+          <text x="654" y="112" font-size="14" font-weight="700" fill="var(--svg-text)">陆空一体式飞行汽车</text>
+          <text x="654" y="136" font-size="12" fill="var(--svg-muted)">• 构型：机臂全折叠隐藏式超跑车身</text>
+          <text x="654" y="156" font-size="12" fill="var(--svg-muted)">• 能源：400+ Wh/kg 全固态电池</text>
+          <text x="654" y="176" font-size="12" fill="var(--svg-muted)">• 场景：门到门三维立体自主交通</text>
+          <text x="654" y="206" font-size="12" font-weight="700" fill="#7c3aed">目标：个人立体出行终极普及</text>
+        </svg>
+        <div class="figure-caption">图 2-1：小鹏汇天“三步走”战略与产品谱系演进架构示意图</div>
+      </div>
+
+      <h3>2.1 关键发展里程碑</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>时间节点</th><th>核心里程碑事件</th><th>工程与商业意义</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>2021.07</td><td>旅航者 X2 首飞成功（碳纤维双座纯电多旋翼）</td><td>验证 560 kg 级起飞重量双座飞控与碳纤维机身工艺</td></tr>
+            <tr><td>2023.10</td><td>小鹏科技日首次发布“陆地航母”分体式构型</td><td>确立陆空解耦架构，解决传统飞行汽车法规与续航死结</td></tr>
+            <tr><td>2024.03</td><td>X3-F 飞行体型号合格证（TC）申请获 CAAC 正式受理</td><td>进入中国民航局适航审定实质阶段</td></tr>
+            <tr><td>2024.11</td><td>珠海航展完成全球首次公开自动分合与载人飞行演示</td><td>向公众与资本市场验证自动装载与飞行稳定性</td></tr>
+            <tr><td>2025–2026</td><td>广州智造基地竣工试产，推进 TC/PC 取证与首批交付</td><td>迈入全球首个流水线级飞行汽车规模化量产周期</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Chapter 03 -->
+    <section class="chapter" id="ch3">
+      <div class="chapter-header">
+        <span class="chapter-num">03</span>
+        <h2>整车总体架构与全自动分合机构</h2>
+      </div>
+      <p>
+        “陆地航母”由<strong>陆行体（母舰）</strong>和<strong>飞行体（X3-F）</strong>两大独立系统构成。陆行体外观采用赛博机甲风格极简折面设计，整车尺寸约长 5.5 m、宽 2.0 m、高 2.0 m，完全符合中国标准地下车库限高（2.2 m）与常规停车位尺寸，持 <strong>C 类机动车驾驶证</strong>即可合法上路。
+      </p>
+      <p>
+        底盘采用<strong>三轴六轮（6×6）全轮驱动架构</strong>，配备后轮主动转向系统与空气悬架。三轴布局不仅为后部半开放式机舱承载约 600–700 kg 的飞行体与分合机构提供了充足的轴荷裕度，还在非铺装越野路况下赋予了极高的牵引力与脱困能力。
+      </p>
+
+      <!-- SVG 2: Modular Blueprint & Separation Mechanism -->
+      <div class="figure-box">
+        <svg viewBox="0 0 920 320" xmlns="http://www.w3.org/2000/svg">
+          <rect x="0" y="0" width="920" height="320" rx="10" fill="var(--svg-bg)" />
+          <text x="460" y="26" text-anchor="middle" font-size="15" font-weight="700" fill="var(--svg-text)">“陆地航母”整车分体架构与 5 分钟全自动分合工作流程蓝图</text>
+
+          <!-- Mother Vehicle Outline -->
+          <g transform="translate(40,65)">
+            <text x="195" y="-10" text-anchor="middle" font-size="13" font-weight="700" fill="#2563eb">陆行母舰（三轴六轮增程平台）</text>
+            <!-- Body -->
+            <polygon points="15,115 55,48 165,44 375,48 390,115 390,152 15,152" fill="var(--svg-card)" stroke="#2563eb" stroke-width="2.2" />
+            <!-- Cabin Glass -->
+            <polygon points="62,56 155,54 155,95 36,95" fill="rgba(59,130,246,0.18)" stroke="#3b82f6" stroke-width="1.2" />
+            <text x="105" y="80" text-anchor="middle" font-size="11" fill="var(--svg-text)">4/5座智能乘员舱</text>
+            <!-- Rear Hangar Bay -->
+            <rect x="172" y="58" width="202" height="82" rx="6" fill="rgba(14,165,233,0.10)" stroke="#0ea5e9" stroke-dasharray="5,4" stroke-width="1.6" />
+            <text x="273" y="84" text-anchor="middle" font-size="11" font-weight="700" fill="#0284c7">电动尾门与机舱收纳空间</text>
+            <text x="273" y="102" text-anchor="middle" font-size="10.5" fill="var(--svg-muted)">集成8自由度托举滑轨 + 高压快充接口</text>
+            <text x="273" y="122" text-anchor="middle" font-size="10.5" fill="var(--svg-muted)">视觉/激光引导自动对准锁紧机构</text>
+            <!-- 3 Wheels (6x6) -->
+            <circle cx="72" cy="155" r="24" fill="#1e293b" stroke="#64748b" stroke-width="3" />
+            <circle cx="72" cy="155" r="10" fill="#94a3b8" />
+            <circle cx="248" cy="155" r="24" fill="#1e293b" stroke="#64748b" stroke-width="3" />
+            <circle cx="248" cy="155" r="10" fill="#94a3b8" />
+            <circle cx="332" cy="155" r="24" fill="#1e293b" stroke="#64748b" stroke-width="3" />
+            <circle cx="332" cy="155" r="10" fill="#94a3b8" />
+            <!-- Dimensions -->
+            <line x1="15" y1="196" x2="390" y2="196" stroke="#64748b" stroke-width="1.2" />
+            <text x="202" y="212" text-anchor="middle" font-size="11" fill="var(--svg-muted)">长 ≈ 5,500 mm | 宽 ≈ 2,000 mm | 高 ≈ 2,000 mm（6×6全驱 + 后轮转向）</text>
+          </g>
+
+          <!-- Separation Process Flow -->
+          <g transform="translate(475,58)">
+            <text x="205" y="-3" text-anchor="middle" font-size="13" font-weight="700" fill="#059669">全自动“分离 / 结合”机电闭环流程（≤ 5 分钟）</text>
+            <rect x="0" y="12" width="410" height="44" rx="8" fill="var(--svg-card)" stroke="var(--svg-stroke)" />
+            <text x="14" y="31" font-size="12" font-weight="700" fill="#2563eb">① 车体调平与尾门开启</text>
+            <text x="14" y="47" font-size="11" fill="var(--svg-muted)">空气悬架自动降低车尾高度并水平调平，电动尾门向上展开。</text>
+
+            <rect x="0" y="64" width="410" height="44" rx="8" fill="var(--svg-card)" stroke="var(--svg-stroke)" />
+            <text x="14" y="83" font-size="12" font-weight="700" fill="#0ea5e9">② 高压断连与滑轨伸出</text>
+            <text x="14" y="99" font-size="11" fill="var(--svg-muted)">自动断开车载高压快充枪与机械锁止销，伺服托盘将飞行体平稳移出。</text>
+
+            <rect x="0" y="116" width="410" height="44" rx="8" fill="var(--svg-card)" stroke="var(--svg-stroke)" />
+            <text x="14" y="135" font-size="12" font-weight="700" fill="#059669">③ 飞行体落地与机臂展开</text>
+            <text x="14" y="151" font-size="11" fill="var(--svg-muted)">起落架触地卸载，陆行体向前驶离；6条碳纤维机臂与12片桨叶自动展开锁紧。</text>
+
+            <rect x="0" y="168" width="410" height="44" rx="8" fill="var(--svg-card)" stroke="var(--svg-stroke)" />
+            <text x="14" y="187" font-size="12" font-weight="700" fill="#d97706">④ 回收对接（逆向闭环）</text>
+            <text x="14" y="203" font-size="11" fill="var(--svg-muted)">飞行体折叠待机 → 母舰视觉/UWB精确定位倒车对准 → 托举回收并自动插枪充电。</text>
+          </g>
+        </svg>
+        <div class="figure-caption">图 3-1：小鹏汇天“陆地航母”整车总体架构与 5 分钟全自动分合机构工作流程</div>
+      </div>
+
+      <h3>3.1 核心整车与飞行体关键技术参数汇总</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>子系统</th><th>技术指标项</th><th>工程参数 / 设计规范</th><th>工程设计意图</th></tr>
+          </thead>
+          <tbody>
+            <tr><td rowspan="4"><strong>陆行母舰</strong></td><td>整车尺寸 (L×W×H)</td><td>约 5.5 m × 2.0 m × 2.0 m</td><td>适配国标地库限高与 C 照合法路权</td></tr>
+            <tr><td>驱动与悬架形式</td><td>三轴六轮 6×6 全轮驱动 + 空气悬架 + 后轮转向</td><td>承载飞行体后部轴荷，缩小转弯半径</td></tr>
+            <tr><td>动力与补能平台</td><td>全域 800V 碳化硅（SiC）增程电动平台</td><td>兼顾长途越野与大功率移动充电站功能</td></tr>
+            <tr><td>综合续航里程</td><td>CLTC 综合续航 &gt; 1,000 km</td><td>支持前往偏远野外/无人区开展低空飞行</td></tr>
+            <tr><td rowspan="4"><strong>飞行体 (X3-F)</strong></td><td>气动与推进构型</td><td>分布式六轴六旋翼（12 片碳纤维桨叶）</td><td>单发/双发失效容错，低速悬停效率高</td></tr>
+            <tr><td>乘员舱与视野</td><td>双座全景座舱（270° 环绕视野）</td><td>满足低空观光与低空目视飞行（VFR）需求</td></tr>
+            <tr><td>操纵与飞行模式</td><td>单杆智能操纵（支持手动 + 全自动航线）</td><td>大幅降低飞行培训门槛（5分钟上手，3小时成手）</td></tr>
+            <tr><td>满电飞行架次</td><td>单次充满支持约 5–6 次典型短途飞行体验</td><td>契合营地起降、野外侦察与短途低空游览</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Chapter 04 -->
+    <section class="chapter" id="ch4">
+      <div class="chapter-header">
+        <span class="chapter-num">04</span>
+        <h2>800V 碳化硅增程动力与能量流拓扑</h2>
+      </div>
+      <p>
+        飞行汽车在野外营地或应急救灾现场面临的首要痛点是<strong>“无航空专用充电桩”</strong>。小鹏汇天通过将陆行母舰打造成一座<strong>“移动 800V 超充站”</strong>，彻底解决了飞行体的能源补给焦虑。陆行母舰搭载高热效率增程器、大容量动力电池包与碳化硅（SiC）双向电控系统，不仅驱动六轮电机行驶，还能在驻车或行进收纳状态下通过高压直流直连为飞行体补能。
+      </p>
+
+      <!-- SVG 3: 800V SiC Energy Flow Topology -->
+      <div class="figure-box">
+        <svg viewBox="0 0 920 280" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="arrG" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981" />
+            </marker>
+            <marker id="arrB" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6" />
+            </marker>
+            <marker id="arrO" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b" />
+            </marker>
+          </defs>
+          <rect x="0" y="0" width="920" height="280" rx="10" fill="var(--svg-bg)" />
+          <text x="460" y="26" text-anchor="middle" font-size="15" font-weight="700" fill="var(--svg-text)">全域 800V 碳化硅（SiC）增程动力与“车-机”双向能量流拓扑图</text>
+
+          <!-- Fuel & Range Extender -->
+          <rect x="28" y="60" width="160" height="72" rx="10" fill="var(--svg-card)" stroke="#f59e0b" stroke-width="1.8" />
+          <text x="108" y="88" text-anchor="middle" font-size="12.5" font-weight="700" fill="#d97706">燃油箱 + 高效增程器</text>
+          <text x="108" y="108" text-anchor="middle" font-size="10.5" fill="var(--svg-muted)">热效率 ≥ 43% | 串联发电</text>
+
+          <!-- Grid Fast Charge -->
+          <rect x="28" y="164" width="160" height="66" rx="10" fill="var(--svg-card)" stroke="#10b981" stroke-width="1.8" />
+          <text x="108" y="191" text-anchor="middle" font-size="12.5" font-weight="700" fill="#059669">外部 800V 超充桩</text>
+          <text x="108" y="211" text-anchor="middle" font-size="10.5" fill="var(--svg-muted)">大功率直流快充输入</text>
+
+          <!-- Mother Battery -->
+          <rect x="242" y="96" width="175" height="96" rx="10" fill="var(--svg-card)" stroke="#2563eb" stroke-width="2.2" />
+          <text x="329" y="126" text-anchor="middle" font-size="13" font-weight="700" fill="#2563eb">母舰 800V 动力电池包</text>
+          <text x="329" y="146" text-anchor="middle" font-size="10.5" fill="var(--svg-muted)">高倍率充放电 + 液冷热管理</text>
+          <text x="329" y="166" text-anchor="middle" font-size="10.5" fill="var(--svg-muted)">满油满电可给飞行体充 6 次</text>
+
+          <!-- SiC PDU / DC-DC -->
+          <rect x="468" y="96" width="168" height="96" rx="10" fill="var(--svg-card)" stroke="#0ea5e9" stroke-width="2" />
+          <text x="552" y="124" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0284c7">SiC 高压配电与升压单元</text>
+          <text x="552" y="144" text-anchor="middle" font-size="10.5" fill="var(--svg-muted)">效率 ≥ 98.5% | 隔离 DC-DC</text>
+          <text x="552" y="164" text-anchor="middle" font-size="10.5" fill="var(--svg-muted)">智能功率分配（行车/补能）</text>
+
+          <!-- 6x6 Drive Motors -->
+          <rect x="692" y="54" width="198" height="74" rx="10" fill="var(--svg-card)" stroke="#6366f1" stroke-width="1.8" />
+          <text x="791" y="82" text-anchor="middle" font-size="12.5" font-weight="700" fill="#4f46e5">三轴六轮电驱系统</text>
+          <text x="791" y="102" text-anchor="middle" font-size="10.5" fill="var(--svg-muted)">前/中/后多电机独立扭矩矢量控制</text>
+
+          <!-- Aircraft Battery -->
+          <rect x="692" y="156" width="198" height="84" rx="10" fill="var(--svg-card)" stroke="#059669" stroke-width="2.2" />
+          <text x="791" y="182" text-anchor="middle" font-size="12.5" font-weight="700" fill="#059669">飞行体 800V 航空电池包</text>
+          <text x="791" y="202" text-anchor="middle" font-size="10.5" fill="var(--svg-muted)">30% → 80% 仅需 18 分钟</text>
+          <text x="791" y="220" text-anchor="middle" font-size="10.5" fill="var(--svg-muted)">支持 5C+ 峰值放电与单包隔离</text>
+
+          <!-- Connections -->
+          <path d="M 188 96 L 216 96 L 216 126 L 238 126" fill="none" stroke="#f59e0b" stroke-width="2.2" marker-end="url(#arrO)" />
+          <path d="M 188 197 L 216 197 L 216 164 L 238 164" fill="none" stroke="#10b981" stroke-width="2.2" marker-end="url(#arrG)" />
+          <line x1="417" y1="144" x2="464" y2="144" stroke="#3b82f6" stroke-width="2.4" marker-end="url(#arrB)" />
+          <path d="M 636 124 L 664 124 L 664 91 L 688 91" fill="none" stroke="#3b82f6" stroke-width="2.2" marker-end="url(#arrB)" />
+          <path d="M 636 164 L 664 164 L 664 198 L 688 198" fill="none" stroke="#10b981" stroke-width="2.4" marker-end="url(#arrG)" />
+        </svg>
+        <div class="figure-caption">图 4-1：“陆地航母”全域 800V SiC 增程动力与车-机高压直流快充能量流拓扑</div>
+      </div>
+
+      <h3>4.1 800V 高压平台在飞行体上的减重与效率增益</h3>
+      <p>
+        对于多旋翼 eVTOL 而言，电压平台从 400V 提升至 800V 具有决定性的工程收益：在同等输出功率 $P = U \cdot I$ 条件下，工作电流减半，线束焦耳热损耗 $P_{\text{loss}} = I^2 R$ 理论上降低至原来的 <strong>25%</strong>，从而允许大幅缩减高压铜缆截面积与连接器重量。结合碳化硅（SiC）MOSFET 逆变器的高频低开关损耗特性，电驱系统综合效率可提升 2%–3%，并显著减轻飞行体热管理系统的散热载荷。
+      </p>
+      <div class="formula-box">
+        E<sub>avail</sub> = m<sub>bat</sub> · e<sub>cell</sub> · η<sub>pack</sub> · DoD · η<sub>prop</sub> &nbsp;&nbsp;|&nbsp;&nbsp; t<sub>hover</sub> ≈ E<sub>avail</sub> / P<sub>hover</sub>
+        <span class="formula-note">式中：m<sub>bat</sub> 为飞行体电池包总质量，e<sub>cell</sub> 为电芯能量密度（约 260–285 Wh/kg），η<sub>pack</sub> 为成组效率（~75%），DoD 为可用放电深度（考虑 20% 适航储备电量）。</span>
+      </div>
+    </section>
+
+    <!-- Chapter 05 -->
+    <section class="chapter" id="ch5">
+      <div class="chapter-header">
+        <span class="chapter-num">05</span>
+        <h2>飞行体气动布局与六旋翼推进系统</h2>
+      </div>
+      <p>
+        飞行体 X3-F 采用<strong>六轴六旋翼双涵道/开放式碳纤维旋翼构型</strong>（单轴双叶，共 12 片碳纤维桨叶），机身结构与桨叶大量采用航空级碳纤维复合材料（CFRP）以压降空重。相较于传统的四旋翼构型，六旋翼构型在几何对称性、悬停力矩裕度以及单/双动力失效容错能力上具有压倒性优势。
+      </p>
+
+      <!-- SVG 4: X3-F 6-Rotor Aerodynamic Layout -->
+      <div class="figure-box">
+        <svg viewBox="0 0 920 310" xmlns="http://www.w3.org/2000/svg">
+          <rect x="0" y="0" width="920" height="310" rx="10" fill="var(--svg-bg)" />
+          <text x="460" y="26" text-anchor="middle" font-size="15" font-weight="700" fill="var(--svg-text)">X3-F 飞行体六旋翼气动布局与反扭矩平衡原理图（俯视）</text>
+
+          <!-- Center Fuselage -->
+          <g transform="translate(270,165)">
+            <!-- Arms -->
+            <line x1="0" y1="0" x2="-110" y2="-82" stroke="#475569" stroke-width="6" stroke-linecap="round" />
+            <line x1="0" y1="0" x2="110" y2="-82" stroke="#475569" stroke-width="6" stroke-linecap="round" />
+            <line x1="0" y1="0" x2="-138" y2="0" stroke="#475569" stroke-width="6" stroke-linecap="round" />
+            <line x1="0" y1="0" x2="138" y2="0" stroke="#475569" stroke-width="6" stroke-linecap="round" />
+            <line x1="0" y1="0" x2="-110" y2="82" stroke="#475569" stroke-width="6" stroke-linecap="round" />
+            <line x1="0" y1="0" x2="110" y2="82" stroke="#475569" stroke-width="6" stroke-linecap="round" />
+
+            <!-- Rotors -->
+            <g>
+              <circle cx="-110" cy="-82" r="42" fill="rgba(59,130,246,0.12)" stroke="#2563eb" stroke-width="2" stroke-dasharray="6,4" />
+              <circle cx="-110" cy="-82" r="8" fill="#2563eb" />
+              <text x="-110" y="-102" text-anchor="middle" font-size="11" font-weight="700" fill="#2563eb">M1 (CW ↻)</text>
+            </g>
+            <g>
+              <circle cx="110" cy="-82" r="42" fill="rgba(16,185,129,0.12)" stroke="#059669" stroke-width="2" stroke-dasharray="6,4" />
+              <circle cx="110" cy="-82" r="8" fill="#059669" />
+              <text x="110" y="-102" text-anchor="middle" font-size="11" font-weight="700" fill="#059669">M2 (CCW ↺)</text>
+            </g>
+            <g>
+              <circle cx="-138" cy="0" r="42" fill="rgba(16,185,129,0.12)" stroke="#059669" stroke-width="2" stroke-dasharray="6,4" />
+              <circle cx="-138" cy="0" r="8" fill="#059669" />
+              <text x="-138" y="-20" text-anchor="middle" font-size="11" font-weight="700" fill="#059669">M6 (CCW ↺)</text>
+            </g>
+            <g>
+              <circle cx="138" cy="0" r="42" fill="rgba(59,130,246,0.12)" stroke="#2563eb" stroke-width="2" stroke-dasharray="6,4" />
+              <circle cx="138" cy="0" r="8" fill="#2563eb" />
+              <text x="138" y="-20" text-anchor="middle" font-size="11" font-weight="700" fill="#2563eb">M3 (CW ↻)</text>
+            </g>
+            <g>
+              <circle cx="-110" cy="82" r="42" fill="rgba(59,130,246,0.12)" stroke="#2563eb" stroke-width="2" stroke-dasharray="6,4" />
+              <circle cx="-110" cy="82" r="8" fill="#2563eb" />
+              <text x="-110" y="108" text-anchor="middle" font-size="11" font-weight="700" fill="#2563eb">M5 (CW ↻)</text>
+            </g>
+            <g>
+              <circle cx="110" cy="82" r="42" fill="rgba(16,185,129,0.12)" stroke="#059669" stroke-width="2" stroke-dasharray="6,4" />
+              <circle cx="110" cy="82" r="8" fill="#059669" />
+              <text x="110" y="108" text-anchor="middle" font-size="11" font-weight="700" fill="#059669">M4 (CCW ↺)</text>
+            </g>
+
+            <!-- Fuselage Pod -->
+            <ellipse cx="0" cy="0" rx="34" ry="58" fill="var(--svg-card)" stroke="#0f172a" stroke-width="2.2" />
+            <ellipse cx="0" cy="-16" rx="22" ry="26" fill="rgba(14,165,233,0.22)" stroke="#0284c7" stroke-width="1.4" />
+            <text x="0" y="14" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--svg-text)">270°座舱</text>
+            <text x="0" y="30" text-anchor="middle" font-size="9.5" fill="var(--svg-muted)">碳纤维机身</text>
+          </g>
+
+          <!-- Technical Annotations -->
+          <g transform="translate(515,62)">
+            <rect x="0" y="0" width="375" height="215" rx="10" fill="var(--svg-card)" stroke="var(--svg-stroke)" />
+            <text x="18" y="28" font-size="13" font-weight="700" fill="var(--svg-text)">气动与推进关键工程特征</text>
+            <text x="18" y="56" font-size="11.5" fill="var(--svg-muted)">1. 旋向交替布置：3组顺时针(CW) + 3组逆时针(CCW)，</text>
+            <text x="32" y="74" font-size="11.5" fill="var(--svg-muted)">悬停时总偏航反扭矩 Στ_yaw = 0。</text>
+            <text x="18" y="100" font-size="11.5" fill="var(--svg-muted)">2. 折叠收纳机构：6条碳纤维机臂具备电动折叠铰链与</text>
+            <text x="32" y="118" font-size="11.5" fill="var(--svg-muted)">到位双重机械锁止检测传感器，防止空中解锁风险。</text>
+            <text x="18" y="144" font-size="11.5" fill="var(--svg-muted)">3. 桨盘载荷优化：在有限车厢宽度下最大化桨叶直径，</text>
+            <text x="32" y="162" font-size="11.5" fill="var(--svg-muted)">降低诱导功率 P_i = T^(3/2) / √(2ρA)，提升悬停能效。</text>
+            <text x="18" y="188" font-size="11.5" fill="var(--svg-muted)">4. 失效重构能力：任意对角 2 个旋翼失效后，剩余 4</text>
+            <text x="32" y="206" font-size="11.5" fill="var(--svg-muted)">旋翼仍可维持姿态可控并安全迫降。</text>
+          </g>
+        </svg>
+        <div class="figure-caption">图 5-1：X3-F 飞行体六旋翼气动布局、反扭矩平衡与容错重构机制示意图</div>
+      </div>
+
+      <h3>5.1 悬停诱导功率与动量理论分析</h3>
+      <p>
+        依据旋翼滑流动量理论（Momentum Theory），纯多旋翼飞行体在悬停状态下的理想诱导功率与总起飞重量 $W$ 及总桨盘面积 $A = 6 \cdot \pi R^2$ 密切相关：
+      </p>
+      <div class="formula-box">
+        P<sub>hover</sub> = (1 / FM) · [ W<sup>3/2</sup> / √(2 · ρ · A) ]
+        <span class="formula-note">式中：FM 为旋翼悬停效率因子（Figure of Merit，典型值 0.68–0.75）；ρ 为海平面标准空气密度（1.225 kg/m³）。可见起飞重量每增加 10%，悬停功率需求约上升 15.4%，这也是分体式构型将“重型车体”剥离的核心力学动因。</span>
+      </div>
+    </section>
+
+    <!-- Chapter 06 -->
+    <section class="chapter" id="ch6">
+      <div class="chapter-header">
+        <span class="chapter-num">06</span>
+        <h2>飞控算法与单杆智能操纵系统</h2>
+      </div>
+      <p>
+        传统直升机需要驾驶员双手双脚协同控制周期变距杆、总距杆与脚蹬（四通道强耦合），考取私用飞行员执照（PPL）通常需要 40–60 小时以上实飞训练，极难面向大众消费市场普及。小鹏汇天在 X3-F 上首创了<strong>单杆全姿态操纵系统</strong>，将底层复杂的六旋翼转速分配、风扰抑制与姿态解耦全部交给高实时性数字飞控计算机（FCC）处理。
+      </p>
+
+      <div class="two-col">
+        <div class="info-card">
+          <h4>手动驾驶模式（单杆速度指令控制）</h4>
+          <ul>
+            <li><strong>前后/左右推杆：</strong>直接映射为水平面内的前飞、后退、侧飞速度指令（而非传统倾斜角指令），松杆即自动悬停锁位。</li>
+            <li><strong>上下拉按/旋转：</strong>对应垂直爬升、下降与机头偏航转向，彻底取消脚蹬操作。</li>
+            <li><strong>包线保护：</strong>内置高度限制、姿态角限幅、低电量自动返航与电子围栏，杜绝新手误操作引发失控。</li>
+          </ul>
+        </div>
+        <div class="info-card">
+          <h4>自动驾驶模式（航线规划与一键起降）</h4>
+          <ul>
+            <li><strong>一键起飞/降落：</strong>系统自动完成起飞前自检（电调、IMU、GNSS、电池压差）并按最优垂直剖面升空。</li>
+            <li><strong>3D 航线自主巡航：</strong>通过座舱中控屏设定航点，结合多源融合导航与前向/下视障碍物感知实现自主巡航与精准归位。</li>
+            <li><strong>降级接管逻辑：</strong>通信中断或 GNSS 拒止时，自动切换至视觉惯性里程计（VIO）并执行安全悬停或就近备降。</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>6.1 飞控控制律架构：串级 PID 与增量非线性动态逆（INDI）</h3>
+      <p>
+        在面对低空阵风切变与桨间气动干扰时，现代 eVTOL 飞控通常采用“外环位置/速度控制 + 内环姿态/角速率控制（INDI 或自适应 LQR）+ 控制分配（Control Allocation）”三层架构。当某个旋翼发生推力衰减或完全停转时，在线故障诊断模块（FDI）在 20 ms 内识别故障通道，控制分配矩阵实时重算剩余电机推力权重，确保横滚、俯仰与总升力优先受控，保障乘员安全着陆。
+      </p>
+    </section>
+
+    <!-- Chapter 07 -->
+    <section class="chapter" id="ch7">
+      <div class="chapter-header">
+        <span class="chapter-num">07</span>
+        <h2>全域冗余安全架构与适航审定进展</h2>
+      </div>
+      <p>
+        航空器的安全标准与汽车存在数量级差异：民用航空器对灾难性故障（Catastrophic Failure）的概率要求通常在 <strong>10<sup>-7</sup> 至 10<sup>-9</sup> / 飞行小时</strong>量级。为此，“陆地航母”飞行体按照航空级适航规范构建了涵盖动力、飞控、供电、通信与操纵的<strong>全域冗余安全架构</strong>。
+      </p>
+
+      <!-- SVG 5: Full-Domain Redundancy Architecture -->
+      <div class="figure-box">
+        <svg viewBox="0 0 920 270" xmlns="http://www.w3.org/2000/svg">
+          <rect x="0" y="0" width="920" height="270" rx="10" fill="var(--svg-bg)" />
+          <text x="460" y="26" text-anchor="middle" font-size="15" font-weight="700" fill="var(--svg-text)">X3-F 飞行体全域冗余安全架构（动力 / 能源 / 飞控 / 感知四维容错）</text>
+
+          <!-- Column 1 -->
+          <rect x="24" y="52" width="204" height="190" rx="10" fill="var(--svg-card)" stroke="#2563eb" stroke-width="1.8" />
+          <rect x="24" y="52" width="204" height="32" rx="10" fill="#2563eb" />
+          <text x="126" y="73" text-anchor="middle" font-size="12.5" font-weight="700" fill="#ffffff">三余度异构飞控系统</text>
+          <text x="38" y="106" font-size="11.5" fill="var(--svg-text)">• FCC-A / FCC-B / FCC-C</text>
+          <text x="38" y="126" font-size="11" fill="var(--svg-muted)">异构芯片 + 异构软件代码，</text>
+          <text x="38" y="143" font-size="11" fill="var(--svg-muted)">消除共因故障（CCF）风险。</text>
+          <text x="38" y="168" font-size="11.5" fill="var(--svg-text)">• 实时表决与无缝切换</text>
+          <text x="38" y="188" font-size="11" fill="var(--svg-muted)">单通道失效切换延迟 &lt; 10ms。</text>
+          <text x="38" y="218" font-size="11" font-weight="700" fill="#2563eb">安全目标：DAL-A/B 级标准</text>
+
+          <!-- Column 2 -->
+          <rect x="246" y="52" width="204" height="190" rx="10" fill="var(--svg-card)" stroke="#059669" stroke-width="1.8" />
+          <rect x="246" y="52" width="204" height="32" rx="10" fill="#059669" />
+          <text x="348" y="73" text-anchor="middle" font-size="12.5" font-weight="700" fill="#ffffff">动力与电驱双失效容错</text>
+          <text x="260" y="106" font-size="11.5" fill="var(--svg-text)">• 6 套独立电机与双绕组设计</text>
+          <text x="260" y="126" font-size="11" fill="var(--svg-muted)">单电机与电调物理隔离，</text>
+          <text x="260" y="143" font-size="11" fill="var(--svg-muted)">杜绝单点短路级联扩散。</text>
+          <text x="260" y="168" font-size="11.5" fill="var(--svg-text)">• 对角双旋翼失效安全降落</text>
+          <text x="260" y="188" font-size="11" fill="var(--svg-muted)">满足苛刻的单/双发失效包线。</text>
+          <text x="260" y="218" font-size="11" font-weight="700" fill="#059669">验证状态：实飞双发停机验证</text>
+
+          <!-- Column 3 -->
+          <rect x="468" y="52" width="204" height="190" rx="10" fill="var(--svg-card)" stroke="#d97706" stroke-width="1.8" />
+          <rect x="468" y="52" width="204" height="32" rx="10" fill="#d97706" />
+          <text x="570" y="73" text-anchor="middle" font-size="12.5" font-weight="700" fill="#ffffff">多包隔离能源与热安全</text>
+          <text x="482" y="106" font-size="11.5" fill="var(--svg-text)">• 独立分组供电总线</text>
+          <text x="482" y="126" font-size="11" fill="var(--svg-muted)">单组电池包故障自动熔断隔离，</text>
+          <text x="482" y="143" font-size="11" fill="var(--svg-muted)">其余电池维持紧急返航动力。</text>
+          <text x="482" y="168" font-size="11.5" fill="var(--svg-text)">• 航空级热失控抑制</text>
+          <text x="482" y="188" font-size="11" fill="var(--svg-muted)">定向泄压阀 + 气凝胶隔热屏障。</text>
+          <text x="482" y="218" font-size="11" font-weight="700" fill="#d97706">标准：单电芯热失控不蔓延</text>
+
+          <!-- Column 4 -->
+          <rect x="690" y="52" width="204" height="190" rx="10" fill="var(--svg-card)" stroke="#8b5cf6" stroke-width="1.8" />
+          <rect x="690" y="52" width="204" height="32" rx="10" fill="#8b5cf6" />
+          <text x="792" y="73" text-anchor="middle" font-size="12.5" font-weight="700" fill="#ffffff">多源感知与整机保护</text>
+          <text x="704" y="106" font-size="11.5" fill="var(--svg-text)">• 三余度 IMU + 双频 GNSS</text>
+          <text x="704" y="126" font-size="11" fill="var(--svg-muted)">气压高度计 + 毫米波雷达定高，</text>
+          <text x="704" y="143" font-size="11" fill="var(--svg-muted)">抗遮挡与多路径干扰。</text>
+          <text x="704" y="168" font-size="11.5" fill="var(--svg-text)">• 极端工况终极兜底</text>
+          <text x="704" y="188" font-size="11" fill="var(--svg-muted)">低空开伞技术储备与吸能起落架。</text>
+          <text x="704" y="218" font-size="11" font-weight="700" fill="#7c3aed">目标：乘员生存空间最大化</text>
+        </svg>
+        <div class="figure-caption">图 7-1：X3-F 飞行体全域冗余安全架构与故障隔离体系</div>
+      </div>
+
+      <h3>7.1 中国民航局（CAAC）适航审定“三证”路径</h3>
+      <p>
+        在中国开展载人飞行汽车商业交付，必须先后或并行取得中国民航局颁发的三项核心资质：<strong>型号合格证（TC）</strong>验证设计安全、<strong>生产许可证（PC）</strong>验证批量制造质量一致性、<strong>单机适航证（AC）</strong>验证每台交付航空器处于安全可用状态。目前 X3-F 飞行体已获 CAAC 受理 TC 申请，正围绕专用条件（Special Conditions）推进结构静力/疲劳、电池热失控、电磁兼容（HIRF/雷电）及高低温环境试飞等海量符合性验证科目。
+      </p>
+    </section>
+
+    <!-- Chapter 08 -->
+    <section class="chapter" id="ch8">
+      <div class="chapter-header">
+        <span class="chapter-num">08</span>
+        <h2>关键技术可行性与工程瓶颈深度剖析</h2>
+      </div>
+      <p>
+        综合产业链成熟度（TRL 1–9 级）与实车工程验证进度，将“陆地航母”核心技术拆解为六个关键维度进行量化评估。总体而言，陆行母舰平台与 800V 电驱已高度成熟（TRL 8–9），而航空级高比能快充电池、复杂地形自动对接机构以及适航取证周期仍是最主要的工程约束。
+      </p>
+
+      <!-- Chart 1: Tech Readiness Radar -->
+      <div class="chart-box">
+        <canvas id="techRadarChart"></canvas>
+      </div>
+
+      <h3>8.1 四大核心工程瓶颈与潜在破局方案</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>工程瓶颈领域</th><th>具体技术挑战</th><th>当前风险等级</th><th>工程破局与缓解策略</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>1. 电池比能量与倍率折衷</strong></td>
+              <td>起飞/悬停需 4C–6C 持续大电流放电，同时要求 18 分钟快充与 280+ Wh/kg 高能量密度，极易引发析锂与热失控。</td>
+              <td><span class="tag tag-high">高</span></td>
+              <td>采用硅碳负极半固态/高镍三元航空电芯，引入全浸没或双面大面积液冷板，并限制单次深度放电裕度。</td>
+            </tr>
+            <tr>
+              <td><strong>2. 非平整路面自动分合精度</strong></td>
+              <td>野外泥地、坡道或侧风环境下，母舰与飞行体位姿存在毫米级/角度偏差，易导致卡滞或锁止失效。</td>
+              <td><span class="tag tag-mid">中高</span></td>
+              <td>空气悬架主动四轮调平 + 视觉/UWB/激光多模态引导 + 机械导向锥面柔性容差设计。</td>
+            </tr>
+            <tr>
+              <td><strong>3. 气动噪声与社区接受度</strong></td>
+              <td>六旋翼桨尖高速旋转产生显著离散桨叶通过频率（BPF）噪声，在景区与城市边缘易受环保限值制约。</td>
+              <td><span class="tag tag-mid">中</span></td>
+              <td>优化桨尖后掠外形与非均匀桨叶间距设计，降低叶尖马赫数（&lt; 0.55），使 100m 处噪声控制在 65 dBA 以下。</td>
+            </tr>
+            <tr>
+              <td><strong>4. 适航取证与空域审批节奏</strong></td>
+              <td>针对个人消费级分体飞行汽车的空域报备与飞行执照体系仍在完善中，存在交付后“买得到、难起飞”隐患。</td>
+              <td><span class="tag tag-high">高</span></td>
+              <td>与地方政府合作签约 200+ 飞行营地构建合法空域网络，推动轻型运动类/专用低空驾照简化考核。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Chapter 09 -->
+    <section class="chapter" id="ch9">
+      <div class="chapter-header">
+        <span class="chapter-num">09</span>
+        <h2>全球主流竞品横向对标分析</h2>
+      </div>
+      <p>
+        为客观定位“陆地航母”在全球低空交通版图中的竞争位势，本节选取四款极具代表性的国内外标杆产品进行多维度横向对标：<strong>亿航智能 EH216-S</strong>（全球首个集齐三证的无人驾驶 eVTOL）、<strong>Joby Aviation S4</strong>（北美倾转旋翼 UAM 标杆）、<strong>Alef Model A</strong>（美国陆空一体网状车身概念）以及 <strong>Klein Vision AirCar</strong>（斯洛伐克固定翼折叠式陆空一体车）。
+      </p>
+
+      <!-- Chart 2: Competitor Benchmark Bar Chart -->
+      <div class="chart-box">
+        <canvas id="competitorChart"></canvas>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>对比维度</th>
+              <th>小鹏汇天“陆地航母”</th>
+              <th>亿航 EH216-S</th>
+              <th>Joby S4</th>
+              <th>Alef Model A</th>
+              <th>AirCar (Klein Vision)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>产品构型</strong></td><td>分体式（6×6母舰+六旋翼）</td><td>纯电动多旋翼 eVTOL</td><td>倾转六旋翼复合 eVTOL</td><td>陆空一体网状车身 eVTOL</td><td>折叠固定翼陆空一体</td></tr>
+            <tr><td><strong>起降方式</strong></td><td>VTOL（垂直起降）</td><td>VTOL（垂直起降）</td><td>VTOL（垂直起降）</td><td>VTOL（垂直起降）</td><td>CTOL（需 300m 跑道）</td></tr>
+            <tr><td><strong>载员能力</strong></td><td>陆行 4–5 座 / 飞行 2 座</td><td>2 座（全自动无人）</td><td>5 座（1 飞手 + 4 乘客）</td><td>1–2 座</td><td>2 座</td></tr>
+            <tr><td><strong>飞行航程 / 续航</strong></td><td>约 25–30 min（可车充 6 次）</td><td>约 25 min / 30 km</td><td>约 160–240 km</td><td>标称 ~177 km（未实测验证）</td><td>约 1,000 km（燃油）</td></tr>
+            <tr><td><strong>目标售价 / 定位</strong></td><td>≤ 200 万 RMB（B2C+B2B）</td><td>239 万 RMB（B2B 运营）</td><td>非个人零售（Air Taxi）</td><td>约 30 万美元（预售概念）</td><td>约 50–100 万美元</td></tr>
+            <tr><td><strong>适航与量产进度</strong></td><td>TC 审定中，万台工厂试产</td><td><strong>已获 CAAC TC/PC/AC</strong></td><td>FAA 审定第 4/5 阶段</td><td>仅获特许实验飞行证</td><td>获斯洛伐克适航认证</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout">
+        <strong>差异化护城河总结：</strong>相较于 Joby S4 和亿航 EH216-S 聚焦“城市空中出租车（B2B 运营）”，“陆地航母”开辟了全球独有的<strong>“个人可拥有 + 跨场景长途自驾 + 野外即停即飞”</strong>蓝海细分赛道；相较于 Alef Model A 等概念车，小鹏汇天依托小鹏汽车成熟的三电与供应链体系，在工程量产确定性与成本控制上具备显著代差优势。
+      </div>
+    </section>
+
+    <!-- Chapter 10 -->
+    <section class="chapter" id="ch10">
+      <div class="chapter-header">
+        <span class="chapter-num">10</span>
+        <h2>典型应用场景与商业运营模式设计</h2>
+      </div>
+      <p>
+        任何颠覆性交通工具的商业化都必须遵循“由限定场景向开放场景、由高支付意愿群体向大众消费群体”渐进扩散的规律。“陆地航母”凭借独特的“移动补能母舰 + 垂直起降飞行体”组合，在 <strong>C 端高端消费</strong>与 <strong>B/G 端行业应急</strong>两大领域均具备高契合度。
+      </p>
+
+      <div class="two-col">
+        <div class="info-card">
+          <h4>场景一：C 端个人户外探索与低空文旅（核心基本盘）</h4>
+          <p>面向高净值科技极客、豪华越野车与游艇/通航消费群体。用户周五下班后驾驶母舰长途自驾至高原、戈壁、海岛或全国连锁飞行营地，5 分钟分离飞行体开展低空俯瞰与短途越障飞行。<strong>商业闭环：</strong>整车销售 + 营地会员年费 + 飞行培训与保险服务。</p>
+        </div>
+        <div class="info-card">
+          <h4>场景二：G/B 端应急救援与特种作业（高社会价值）</h4>
+          <p>在地震断路、山洪泥石流、森林火情及高速严重拥堵场景下，6×6 越野母舰可抵近灾害边缘，快速释放飞行体执行低空侦察、医疗物资投送、伤员转运与通信中继。无需依赖机场跑道与外部电网，显著提升“黄金 72 小时”救援响应速度。</p>
+        </div>
+        <div class="info-card">
+          <h4>场景三：景区低空观光与高端度假村接驳（B2B2C）</h4>
+          <p>针对 5A 级景区、沙漠营地与海岛度假村，运营商采购车队开展体验式飞行（单次 10–15 分钟，客单价 800–1,500 元）。凭借母舰自带超充与可转场特性，运营商可根据淡旺季灵活跨省调度资产，大幅提升单机利用率与投资回报率（ROI）。</p>
+        </div>
+        <div class="info-card">
+          <h4>场景四：低空生态基建协同（“全国飞行营地网络”）</h4>
+          <p>小鹏汇天正联合地方政府与文旅集团构建覆盖核心城市群周边 1–2 小时车程的“低空飞行营地”网络，统一解决空域报备、起降坪、维保定检与飞行培训问题，形成类似早期新能源汽车“超充网络”的生态壁垒。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Chapter 11 -->
+    <section class="chapter" id="ch11">
+      <div class="chapter-header">
+        <span class="chapter-num">11</span>
+        <h2>市场可行性、BOM 成本拆解与商业预测</h2>
+      </div>
+      <p>
+        根据中国民航局（CAAC）与工信部等四部门联合印发的《通用航空装备创新应用实施方案（2024—2030 年）》，中国低空经济市场规模预计将在 2025 年突破 1.5 万亿元，并在 2035 年达到 3.5 万亿元。其中，电动垂直起降航空器（eVTOL）与个人消费级飞行汽车被视为最具爆发力的增量引擎。
+      </p>
+
+      <!-- Chart 3: Market Growth & Delivery Forecast -->
+      <div class="chart-box">
+        <canvas id="marketForecastChart"></canvas>
+      </div>
+
+      <h3>11.1 “陆地航母”估算 BOM 成本结构与降本路径（万台年产规模）</h3>
+      <p>
+        传统通航飞机之所以动辄数百万至上千万元，核心原因在于极低的年产量（数十台级）导致模具摊销与航空级小批量件采购成本居高不下。小鹏汇天通过将<strong>汽车级大规模流水线制造工艺</strong>与<strong>航空级安全冗余设计</strong>相结合，有望在年产 5,000–10,000 台规模下将整车综合 BOM 成本压降至 115–135 万元区间，从而支撑 200 万元以内的终端售价并实现 25%+ 的健康毛利率。
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>成本模块</th><th>估算成本占比</th><th>核心构成与供应链降本杠杆</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>陆行母舰整车平台</strong></td><td>~32%</td><td>复用小鹏扶摇架构 800V SiC 三电、智能座舱与供应链体系，边际成本可控</td></tr>
+            <tr><td><strong>飞行体碳纤维机身与旋翼</strong></td><td>~22%</td><td>采用热压罐 + RTM 自动化复材成型工艺，规模化后复材件成本可下降 40%+</td></tr>
+            <tr><td><strong>航空级三电与飞控冗余系统</strong></td><td>~24%</td><td>三余度飞控、6 套高功率密度直驱电机与航空级热安全电池包，为成本核心</td></tr>
+            <tr><td><strong>自动分合机构与伺服系统</strong></td><td>~10%</td><td>高精度电动滑轨、视觉/UWB 传感器与机械锁止执行机构</td></tr>
+            <tr><td><strong>适航摊销、总装测试与质保</strong></td><td>~12%</td><td>前期 TC/PC 研发摊销高，需通过万台级产能快速摊薄单车固定成本</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Chapter 12 -->
+    <section class="chapter" id="ch12">
+      <div class="chapter-header">
+        <span class="chapter-num">12</span>
+        <h2>综合评估结论、风险矩阵与参考文献</h2>
+      </div>
+      <p>
+        综合全维度工程解构与商业评估，小鹏汇天“陆地航母”并非脱离现实的科幻概念，而是当前电池能量密度（~280 Wh/kg）与空域政策约束下，<strong>工程最优解与商业最先落地解的高度统一</strong>。其“分体式解耦”思路巧妙绕开了一体式飞行汽车的法规与力学死结，并以 800V 移动超充母舰破解了野外补能难题，具有成为中国低空经济“破冰标杆产品”的充分潜力。
+      </p>
+
+      <h3>12.1 项目全生命周期核心风险矩阵</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>风险类别</th><th>风险事件描述</th><th>发生概率</th><th>影响程度</th><th>应对建议</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>适航法规风险</strong></td><td>CAAC 型号合格证（TC）审定科目延期导致量产交付推迟</td><td><span class="tag tag-mid">中</span></td><td><span class="tag tag-high">极高</span></td><td>提前与审定中心建立联合工作组，并行开展试产线建设</td></tr>
+            <tr><td><strong>安全与舆情风险</strong></td><td>早期交付用户违规飞行或极端天气引发安全事故，冲击品牌信任</td><td><span class="tag tag-low">低</span></td><td><span class="tag tag-high">极高</span></td><td>强制绑定电子围栏、起飞前气象拦截与严格飞手培训认证</td></tr>
+            <tr><td><strong>成本与产能风险</strong></td><td>碳纤维复材良率与航空级供应链爬坡慢于预期，挤压毛利</td><td><span class="tag tag-mid">中</span></td><td><span class="tag tag-mid">高</span></td><td>推进核心复材件与电驱自研自产，锁定上游 T700/T800 碳丝产能</td></tr>
+            <tr><td><strong>复购与生态风险</strong></td><td>首批极客尝鲜后，若空域审批繁琐导致后续 B2C 需求增速放缓</td><td><span class="tag tag-mid">中</span></td><td><span class="tag tag-mid">中</span></td><td>强化应急救援、文旅运营等 B/G 端大客户订单压舱石作用</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>12.2 主要参考文献与数据来源</h3>
+      <ol>
+        <li>中国民用航空局（CAAC）. <em>民用无人驾驶航空器及电动垂直起降航空器（eVTOL）适航审定政策与专用条件汇编</em>. 2024–2026.</li>
+        <li>工业和信息化部, 科学技术部, 财政部, 中国民用航空局. <em>通用航空装备创新应用实施方案（2024—2030年）</em>. 2024.</li>
+        <li>XPENG AEROHT（小鹏汇天）. <em>“陆地航母”分体式飞行汽车技术白皮书与公开演示资料</em>. 广州, 2024–2026.</li>
+        <li>Leishman, J. G. <em>Principles of Helicopter Aerodynamics</em> (2nd Edition). Cambridge University Press, 2006.</li>
+        <li>Morgan Stanley Research. <em>eVTOL / Urban Air Mobility TAM Update: A Slow Take-Off, But Sky's the Limit</em>. 2024.</li>
+        <li>清华大学车辆与运载学院 / 吉林大学汽车工程学院. <em>飞行汽车技术基础课程讲义与低空载运工具综述</em>. 2025–2026.</li>
+      </ol>
+    </section>
+
+    <footer class="report-footer">
+      《飞行汽车技术基础》课程作业 · 单文件静态网页报告（GitHub Pages Ready） · 支持明暗主题与 12 页级 PDF 排版导出
+    </footer>
+  </main>
+
+  <script>
+    // 1. Editable Author Persistence
+    const authorField = document.getElementById("authorField");
+    const savedAuthor = localStorage.getItem("lac_report_author");
+    if (savedAuthor) authorField.textContent = savedAuthor;
+    authorField.addEventListener("input", () => {
+      localStorage.setItem("lac_report_author", authorField.textContent.trim());
+    });
+
+    // 2. Mobile Sidebar Toggle
+    const sidebar = document.getElementById("sidebar");
+    document.getElementById("mobileToggle").addEventListener("click", () => {
+      sidebar.classList.toggle("open");
+    });
+    document.querySelectorAll(".toc-nav a").forEach(link => {
+      link.addEventListener("click", () => sidebar.classList.remove("open"));
+    });
+
+    // 3. Scroll Progress Bar & TOC Scroll-Spy
+    const progressBar = document.getElementById("progress-bar");
+    const sections = document.querySelectorAll("section.chapter");
+    const tocLinks = document.querySelectorAll(".toc-nav a");
+
+    window.addEventListener("scroll", () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      progressBar.style.width = docHeight > 0 ? `${(scrollTop / docHeight) * 100}%` : "0%";
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          tocLinks.forEach(a => a.classList.remove("active"));
+          const active = document.querySelector(`.toc-nav a[href="#${entry.target.id}"]`);
+          if (active) active.classList.add("active");
+        }
+      });
+    }, { rootMargin: "-20% 0px -65% 0px" });
+    sections.forEach(sec => observer.observe(sec));
+
+    // 4. Charts Initialization & Theme Switching
+    let chart1, chart2, chart3;
+
+    function getThemeColors() {
+      const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+      return {
+        text: isDark ? "#e2e8f0" : "#1e293b",
+        grid: isDark ? "rgba(148, 163, 184, 0.16)" : "rgba(15, 23, 42, 0.08)",
+        muted: isDark ? "#94a3b8" : "#475569"
+      };
+    }
+
+    function buildCharts() {
+      const c = getThemeColors();
+      [chart1, chart2, chart3].forEach(ch => ch && ch.destroy());
+
+      // Chart 1: Technology Readiness Radar
+      chart1 = new Chart(document.getElementById("techRadarChart"), {
+        type: "radar",
+        data: {
+          labels: [
+            "800V 增程与电驱",
+            "六旋翼气动与飞控",
+            "自动分合机械机构",
+            "航空高比能电池",
+            "低空噪声控制",
+            "CAAC 适航成熟度"
+          ],
+          datasets: [{
+            label: "当前工程成熟度评分（满分 10 分）",
+            data: [9.2, 8.4, 7.6, 7.0, 6.8, 7.2],
+            backgroundColor: "rgba(37, 99, 235, 0.22)",
+            borderColor: "#2563eb",
+            pointBackgroundColor: "#2563eb",
+            borderWidth: 2
+          }, {
+            label: "规模商业化目标基准线",
+            data: [9.0, 9.0, 8.5, 8.5, 8.0, 9.0],
+            backgroundColor: "rgba(16, 185, 129, 0.08)",
+            borderColor: "#10b981",
+            borderDash: [5, 5],
+            pointBackgroundColor: "#10b981",
+            borderWidth: 1.8
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            title: { display: true, text: "图 8-1：“陆地航母”六大核心技术维度成熟度（TRL 映射）评估", color: c.text, font: { size: 14 } },
+            legend: { labels: { color: c.text } }
+          },
+          scales: {
+            r: {
+              min: 0, max: 10,
+              grid: { color: c.grid },
+              angleLines: { color: c.grid },
+              pointLabels: { color: c.text, font: { size: 12 } },
+              ticks: { color: c.muted, backdropColor: "transparent", stepSize: 2 }
+            }
+          }
+        }
+      });
+
+      // Chart 2: Competitor Multi-Dimensional Comparison
+      chart2 = new Chart(document.getElementById("competitorChart"), {
+        type: "bar",
+        data: {
+          labels: ["陆地航母 (小鹏汇天)", "亿航 EH216-S", "Joby S4", "Alef Model A", "AirCar"],
+          datasets: [
+            { label: "综合场景灵活性", data: [9.3, 6.5, 7.2, 6.0, 5.8], backgroundColor: "#2563eb", borderRadius: 5 },
+            { label: "量产与成本可控性", data: [8.6, 8.8, 7.0, 3.8, 5.0], backgroundColor: "#0ea5e9", borderRadius: 5 },
+            { label: "个人消费者可及性", data: [9.0, 4.5, 3.5, 5.5, 4.8], backgroundColor: "#10b981", borderRadius: 5 }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            title: { display: true, text: "图 9-1：全球五款代表性飞行汽车综合竞争力对比（10分制）", color: c.text, font: { size: 14 } },
+            legend: { labels: { color: c.text } }
+          },
+          scales: {
+            x: { ticks: { color: c.text }, grid: { display: false } },
+            y: { min: 0, max: 10, ticks: { color: c.muted }, grid: { color: c.grid } }
+          }
+        }
+      });
+
+      // Chart 3: Market Forecast & Delivery Growth
+      chart3 = new Chart(document.getElementById("marketForecastChart"), {
+        type: "bar",
+        data: {
+          labels: ["2025E", "2026E", "2027E", "2028E", "2030E", "2035E"],
+          datasets: [
+            {
+              type: "bar",
+              label: "中国低空经济总规模（万亿元）",
+              data: [1.5, 1.85, 2.2, 2.55, 3.0, 3.5],
+              backgroundColor: "rgba(37, 99, 235, 0.72)",
+              borderRadius: 6,
+              yAxisID: "y"
+            },
+            {
+              type: "line",
+              label: "分体式/个人飞行汽车年交付量预测（千台）",
+              data: [0.1, 1.5, 4.5, 8.5, 18.0, 45.0],
+              borderColor: "#10b981",
+              backgroundColor: "#10b981",
+              tension: 0.35,
+              borderWidth: 3,
+              yAxisID: "y1"
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            title: { display: true, text: "图 11-1：中国低空经济规模与个人消费级飞行汽车交付量中长期预测", color: c.text, font: { size: 14 } },
+            legend: { labels: { color: c.text } }
+          },
+          scales: {
+            x: { ticks: { color: c.text }, grid: { display: false } },
+            y: {
+              position: "left",
+              title: { display: true, text: "低空经济规模（万亿元）", color: c.muted },
+              ticks: { color: c.muted },
+              grid: { color: c.grid }
+            },
+            y1: {
+              position: "right",
+              title: { display: true, text: "年交付量（千台）", color: c.muted },
+              ticks: { color: c.muted },
+              grid: { drawOnChartArea: false }
+            }
+          }
+        }
+      });
+    }
+
+    buildCharts();
+
+    // Theme Toggle
+    const themeBtn = document.getElementById("themeToggle");
+    themeBtn.addEventListener("click", () => {
+      const root = document.documentElement;
+      const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      root.setAttribute("data-theme", next);
+      themeBtn.textContent = next === "dark" ? "☀️ 切换浅色" : "🌙 切换主题";
+      buildCharts();
+    });
+  </script>
+</body>
+</html>
